@@ -87,9 +87,13 @@ public:
   // индексация с контролем
   T& at(size_t ind)
   {
+      if (ind >= sz) throw ind;
+      return pMem[ind];
   }
   const T& at(size_t ind) const
   {
+      if (ind >= sz) throw ind;
+      return pMem[ind];
   }
 
   // сравнение
