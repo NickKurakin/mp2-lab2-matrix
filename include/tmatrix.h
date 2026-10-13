@@ -139,12 +139,33 @@ public:
   // векторные операции
   TDynamicVector operator+(const TDynamicVector& v)
   {
+      if (sz != v.sz) throw sz;
+      TDynamicVector<T> tmp(*this);
+      for (int i = 0; i < sz; i++)
+      {
+          tmp[i] += v[i];
+      }
+      return tmp;
   }
   TDynamicVector operator-(const TDynamicVector& v)
   {
+      if (sz != v.sz) throw sz;
+      TDynamicVector<T> tmp(*this);
+      for (int i = 0; i < sz; i++)
+      {
+          tmp[i] -= v[i];
+      }
+      return tmp;
   }
   T operator*(const TDynamicVector& v) noexcept(noexcept(T()))
   {
+      if (sz != v.sz) throw sz;
+      T res = 0;
+      for (int i = 0; i < sz; i++)
+      {
+          res += v[i] * pMem[i];
+      }
+      return res;
   }
 
   friend void swap(TDynamicVector& lhs, TDynamicVector& rhs) noexcept
@@ -163,7 +184,7 @@ public:
   friend ostream& operator<<(ostream& ostr, const TDynamicVector& v)
   {
     for (size_t i = 0; i < v.sz; i++)
-      ostr << v.pMem[i] << ' '; // требуется оператор<< для типа T
+      ostr << v.pMem[i] << '\t'; // требуется оператор<< для типа T
     return ostr;
   }
 };
