@@ -37,18 +37,40 @@ public:
   }
   TDynamicVector(const TDynamicVector& v)
   {
+      sz = v.sz;
+      pMem = new T[sz];
+      for (int i = 0; i < sz; i++)
+      {
+          pMem[i] = v[i];
+      }
   }
-  TDynamicVector(TDynamicVector&& v) noexcept
+  TDynamicVector(TDynamicVector&& v) : sz(v.sz), pMem(v.pMem)
   {
+      v.sz = 0;
+      v.pMem = nullptr;
   }
   ~TDynamicVector()
   {
+      delete[] pMem;
   }
   TDynamicVector& operator=(const TDynamicVector& v)
   {
+      if (this == &v) return *this;
+      delete[] pMem;
+      sz = v.sz;
+      pMem = new T[sz];
+      for (int i = 0; i < sz; i++)
+      {
+          pMem[i] = v[i];
+      }
+      return *this;
   }
-  TDynamicVector& operator=(TDynamicVector&& v) noexcept
+  TDynamicVector& operator=(TDynamicVector&& v) : sz(v.sz), pMem(v.pMem)
   {
+      if (this == &v) return *this;
+      v.sz = 0;
+      v.pMem = nullptr;
+      return *this;
   }
 
   size_t size() const noexcept { return sz; }
@@ -56,9 +78,11 @@ public:
   // индексация
   T& operator[](size_t ind)
   {
+      return pMem[ind];
   }
   const T& operator[](size_t ind) const
   {
+      return pMem[ind];
   }
   // индексация с контролем
   T& at(size_t ind)
@@ -71,20 +95,45 @@ public:
   // сравнение
   bool operator==(const TDynamicVector& v) const noexcept
   {
+      if (sz != v.sz) return false;
+      for (int i = 0; i < sz; i++)
+      {
+          if (pMem[i] != v[i]) return false;
+      }
+      return true;
   }
   bool operator!=(const TDynamicVector& v) const noexcept
   {
+      return !(*this == v);
   }
 
   // скалярные операции
   TDynamicVector operator+(T val)
   {
+      TDynamicVector<T> tmp(*this);
+      for (int i = 0; i < sz; i++)
+      {
+          tmp[i] += val;
+      }
+      return tmp;
   }
   TDynamicVector operator-(T val)
   {
+      TDynamicVector<T> tmp(*this);
+      for (int i = 0; i < sz; i++)
+      {
+          tmp[i] -= val;
+      }
+      return tmp;
   }
   TDynamicVector operator*(T val)
   {
+      TDynamicVector<T> tmp(*this);
+      for (int i = 0; i < sz; i++)
+      {
+          tmp[i] *= val;
+      }
+      return tmp;
   }
 
   // векторные операции
