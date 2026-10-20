@@ -242,7 +242,7 @@ public:
   // матрично-векторные операции
   TDynamicVector<T> operator*(const TDynamicVector<T>& v)
   {
-      if (sz != v.sz) throw sz - v.sz;
+      if (sz != v.size()) throw sz - v.size();
       TDynamicVector<T> tmp(sz);
       for (size_t i = 0; i < sz; i++)
       {
