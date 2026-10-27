@@ -81,10 +81,12 @@ public:
   // индексация
   T& operator[](size_t ind)
   {
+      if (ind < 0 || ind >= sz) throw ind;
       return pMem[ind];
   }
   const T& operator[](size_t ind) const
   {
+      if (ind < 0 || ind >= sz) throw ind;
       return pMem[ind];
   }
   // индексация с контролем
@@ -211,6 +213,7 @@ public:
       pMem[i] = TDynamicVector<T>(sz);
   }
 
+  size_t size() const noexcept { return sz; }
 
   using TDynamicVector<TDynamicVector<T>>::operator[];
   /*const TDynamicVector<T>& operator[](size_t ind)
