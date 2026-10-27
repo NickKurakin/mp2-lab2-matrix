@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include "tmatrix.h"
+#include "../gtest/gtest.h"
 //---------------------------------------------------------------------------
 
 void main()
@@ -32,5 +33,6 @@ void main()
   cout << "Matrix c = a * b" << endl << c << endl;
   cout << "Matrix a * 5" << endl << a * 5 << endl;
   cout << "Vector a * d" << endl << a * d << endl;
+  EXPECT_EQ(a,b);
 }
 //---------------------------------------------------------------------------

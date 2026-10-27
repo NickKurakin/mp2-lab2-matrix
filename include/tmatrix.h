@@ -31,7 +31,7 @@ public:
   }
   TDynamicVector(T* arr, size_t s) : sz(s)
   {
-    assert(arr != nullptr && "TDynamicVector ctor requires non-nullptr arg");
+    if (arr != nullptr) throw "TDynamicVector ctor requires non-nullptr arg";
     pMem = new T[sz];
     std::copy(arr, arr + sz, pMem);
   }
@@ -210,6 +210,8 @@ public:
     for (size_t i = 0; i < sz; i++)
       pMem[i] = TDynamicVector<T>(sz);
   }
+
+  size_t size() const noexcept { return sz; }
 
   using TDynamicVector<TDynamicVector<T>>::operator[];
   /*const TDynamicVector<T>& operator[](size_t ind)
