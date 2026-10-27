@@ -211,7 +211,6 @@ public:
       pMem[i] = TDynamicVector<T>(sz);
   }
 
-  size_t size() const noexcept { return sz; }
 
   using TDynamicVector<TDynamicVector<T>>::operator[];
   /*const TDynamicVector<T>& operator[](size_t ind)
@@ -228,6 +227,11 @@ public:
           if (pMem[i] != m[i]) return false;
       }
       return true;
+  }
+
+  bool operator!=(const TDynamicMatrix& m) const noexcept
+  {
+      return !(*this == m);
   }
 
   // матрично-скалярные операции
