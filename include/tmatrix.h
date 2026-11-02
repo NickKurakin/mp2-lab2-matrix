@@ -25,13 +25,15 @@ protected:
 public:
   TDynamicVector(size_t size = 1) : sz(size)
   {
-    if (sz == 0)
-      throw out_of_range("Vector size should be greater than zero");
+      if (sz == 0)
+          throw out_of_range("Vector size should be greater than zero");
+      else if (sz > MAX_VECTOR_SIZE) throw sz; //
     pMem = new T[sz]();// {}; // У типа T д.б. констуктор по умолчанию
   }
   TDynamicVector(T* arr, size_t s) : sz(s)
   {
     if (arr != nullptr) throw "TDynamicVector ctor requires non-nullptr arg";
+    if (s > MAX_VECTOR_SIZE || s == 0) throw s; //
     pMem = new T[sz];
     std::copy(arr, arr + sz, pMem);
   }
@@ -209,8 +211,9 @@ class TDynamicMatrix : private TDynamicVector<TDynamicVector<T>>
 public:
   TDynamicMatrix(size_t s = 1) : TDynamicVector<TDynamicVector<T>>(s)
   {
-    for (size_t i = 0; i < sz; i++)
-      pMem[i] = TDynamicVector<T>(sz);
+      if (s > MAX_MATRIX_SIZE) throw sz; //
+      for (size_t i = 0; i < sz; i++)
+        pMem[i] = TDynamicVector<T>(sz);
   }
 
   size_t size() const noexcept { return sz; }
